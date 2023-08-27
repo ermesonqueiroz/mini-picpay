@@ -1,10 +1,8 @@
 package com.minipicpay.domain.user;
 
+import com.minipicpay.dtos.UserDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -13,6 +11,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class User {
     @Id
@@ -22,11 +21,20 @@ public class User {
     private String document;
     @Column(unique = true)
     private String email;
-    @Column(unique = true)
     private String password;
     private String firstName;
     private String lastName;
     private BigDecimal balance;
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    public User(UserDTO userDTO) {
+        this.firstName = userDTO.firstName();
+        this.lastName = userDTO.lastName();
+        this.balance = userDTO.balance();
+        this.userType = userDTO.userType();
+        this.password = userDTO.password();
+        this.email = userDTO.email();
+        this.document = userDTO.document();
+    }
 }
